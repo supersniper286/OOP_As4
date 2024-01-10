@@ -1,0 +1,61 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+
+using namespace std;
+
+struct Product 
+{
+    int id;
+    string name;
+    int quantity;
+    double price;
+};
+
+class InventoryManagementSystem {
+private:
+    vector<Product> inventory;
+
+public:
+    void addProduct(int productId, const string& productName, int quantity, double price) 
+    {
+        Product newProduct = {productId, productName, quantity, price};
+        inventory.push_back(newProduct);
+        cout << "Product with ID " << productId << " added to the inventory." << endl;
+    }
+
+    void removeProduct(int productId) 
+    {
+        auto it = remove_if(inventory.begin(), inventory.end(),
+                            [productId](const Product& product) { return product.id == productId; });
+
+        if (it != inventory.end()) 
+        {
+            inventory.erase(it, inventory.end());
+            cout << "Product with ID " << productId << " removed from the inventory." << endl;
+        } else {
+            cout << "Product with ID " << productId << " not found in the inventory." << endl;
+        }
+    }
+
+    void displayInventory() 
+    {
+        cout << "Inventory:\n";
+        for (const auto& product : inventory) {
+            cout << "ID: " << product.id << ", Name: " << product.name << ", Quantity: " << product.quantity
+                 << ", Price: " << product.price << endl;
+        }
+    }
+};
+
+int main() {
+    InventoryManagementSystem inventorySystem;
+    inventorySystem.addProduct(1, "Product A", 50, 19.99);
+    inventorySystem.addProduct(2, "Product B", 30, 29.99);
+    inventorySystem.displayInventory();
+    inventorySystem.removeProduct(1);
+    inventorySystem.displayInventory();
+    inventorySystem.removeProduct(3); // Product with ID 3 does not exist
+    inventorySystem.displayInventory();
+    return 0;
+}
