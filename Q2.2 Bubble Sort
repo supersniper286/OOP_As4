@@ -1,0 +1,44 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <chrono>
+
+using namespace std;
+
+void bubbleSort(vector<int>& arr) {
+    int n = arr.size();
+    for (int i = 0; i < n - 1; ++i) {
+        for (int j = 0; j < n - i - 1; ++j) {
+            if (arr[j] > arr[j + 1]) {
+                swap(arr[j], arr[j + 1]);
+            }
+        }
+    }
+}
+
+int main() {
+    const int vectorSize = 100000;
+    vector<int> data(vectorSize);
+    
+    for (int i = 0; i < vectorSize; ++i) {
+        data[i] = vectorSize - i;
+    }
+
+    auto start = chrono::high_resolution_clock::now();
+    bubbleSort(data);
+    auto end = chrono::high_resolution_clock::now();
+
+    chrono::duration<double> duration = end - start;
+    cout << "Bubble Sort Execution Time: " << duration.count() << " seconds\n";
+
+    cout << "First 10 integers: ";
+    for (int i = 0; i < 10; ++i) {
+        cout << data[i] << " ";
+    }
+
+    for (int i = vectorSize - 10; i < vectorSize; ++i) {
+        cout << data[i] << " ";
+    }
+
+    return 0;
+}
